@@ -3,7 +3,7 @@
 - 개요 : 신체 일부 모션 데이터를 통해 전체 모션 움직임을 예측하는 프로젝트
 
 ## Run
----
+
 ```
 python main.py
 python main.py --type upper_body
@@ -17,7 +17,7 @@ python main.py --type upper_body
    - leg data를 통해 upper_body를 예측
 
 ## Repository
----
+
 ```
 └── dataset
         ├── leg
@@ -54,7 +54,7 @@ python main.py --type upper_body
    1. dataset/leg , dataset/upper_body에서 사용되는 데이터를 추출하는 코드
 
 ## Prediction (angry_01_001.bvh)
----
+
 ### **type 1**
 
 |raw data| prediction|

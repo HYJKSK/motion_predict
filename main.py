@@ -30,8 +30,8 @@ nowDatetime = now.strftime('%m%d_%H%M%S')
 # 전역 변수
 frames_over = 200
 output_fnum = 200
-seogki_path = "C:/Users/Seogki/GoogleDrive/HY/graduationProject/predict/"
-seogki_path = "" # 유진이
+home_path = "C:/Users/Seogki/GoogleDrive/HY/graduationProject/motion_predict/"
+home_path = "" 
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -94,7 +94,7 @@ def save_model(X_train, y_train, X_test, y_test, n_inputs, n_outputs, fnum, name
     model = get_cnn_model(n_inputs, n_outputs)
 
     # fit the model on all data
-    epochs = 100
+    epochs = 2000
 
     history = model.fit(X_train, y_train, validation_data =(X_test, y_test),verbose=1, epochs=epochs)
     get_history(history, epochs)
@@ -129,16 +129,16 @@ def save_motion(name, motion, fnum, bodytype=0, leg_path=""):
         joint = 128
     
     motion = motion.reshape(joint,fnum) # 128, 48
-    output_dir = seogki_path + "output"
+    output_dir = home_path + "output"
     save_bvh_from_network_output(motion, output_path=pjoin(output_dir, name), bodytype=bodytype)
     if args.type == 'upper_body':
-        save_full_body_path = seogki_path + "output/full_body"
+        save_full_body_path = home_path + "output/full_body"
         save_full_motion(leg_path, pjoin(output_dir, name) , save_full_body_path)
 
 
 def main(args):
 
-    json_path = seogki_path +"dataset/json/" + str(frames_over) + '_f' + str(output_fnum) + "XfootContactByOriginYBodyZXY.json" #seogki 
+    json_path = home_path +"dataset/json/" + str(frames_over) + '_f' + str(output_fnum) + "XfootContactByOriginYBodyZXY.json" #seogki 
     
     if args.type == 'upper_body':
         X_path = "dataset/leg"
@@ -177,12 +177,12 @@ def main(args):
     n_inputs, n_outputs = X_train.shape[1:], y_train.shape[1] # 2D for CNN
 
     print("n_inputs, n_outpouts", n_inputs, n_outputs)
-    model_name = seogki_path+'model/'+nowDatetime+'_cnn_f'+ str(output_fnum)+'.h5' # 모델 이름
-    # load_model_name = seogki_path+'model/0411_001945_cnn_f200.h5'
+    model_name = home_path+'model/'+nowDatetime+'_cnn_f'+ str(output_fnum)+'.h5' # 모델 이름
+    # load_model_name = home_path+'model/0411_001945_cnn_f200.h5'
     model = save_model(X_train, y_train, X_test, y_test, n_inputs, n_outputs, fnum, model_name)
     # model = load_model(load_model_name)
 
-    test_path = seogki_path+"dataset/predict"
+    test_path = home_path+"dataset/predict"
     fit_model(model, fnum, test_path, bodytype=bodytype)
 
 if __name__ == '__main__':
